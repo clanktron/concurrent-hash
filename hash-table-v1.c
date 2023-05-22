@@ -80,6 +80,8 @@ void hash_table_v1_add_entry(struct hash_table_v1 *hash_table, const char *key, 
 	/* Update the value if it already exists */
 	if (list_entry != NULL) {
 		list_entry->value = value;
+        // unlock after critical section
+        pthread_mutex_unlock(&mutex);
 		return;
 	}
 
