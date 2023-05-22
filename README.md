@@ -1,5 +1,6 @@
 # Hash Hash Hash
 > Clayton Castro, UID: 005412538 
+
 This lab implements two different strategies of using multithreading in hash table operations.
 
 ## Building
