@@ -77,9 +77,15 @@ void hash_table_v2_add_entry(struct hash_table_v2 *hash_table, const char *key, 
 	struct hash_table_entry *hash_table_entry = get_hash_table_entry(hash_table, key);
 
     // lock when retrieving head of linked lists
-    pthread_mutex_lock(&mutex1);
+    int err = pthread_mutex_lock(&mutex1);
+    if (err != 0) {
+        exit(err);
+    }
 	struct list_head *list_head = &hash_table_entry->list_head;
-    pthread_mutex_unlock(&mutex1);
+    err = pthread_mutex_unlock(&mutex1);
+    if (err != 0) {
+        exit(err);
+    }
 
 	struct list_entry *list_entry = get_list_entry(hash_table, key, list_head);
 
@@ -93,9 +99,15 @@ void hash_table_v2_add_entry(struct hash_table_v2 *hash_table, const char *key, 
 	list_entry->value = value;
 
     // lock when appending new head to list
-    pthread_mutex_lock(&mutex2);
+    err = pthread_mutex_lock(&mutex2);
+    if (err != 0) {
+        exit(err);
+    }
 	SLIST_INSERT_HEAD(list_head, list_entry, pointers);
-    pthread_mutex_unlock(&mutex2);
+    err = pthread_mutex_unlock(&mutex2);
+    if (err != 0) {
+        exit(err);
+    }
 }
 
 uint32_t hash_table_v2_get_value(struct hash_table_v2 *hash_table,

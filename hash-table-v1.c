@@ -71,7 +71,10 @@ void hash_table_v1_add_entry(struct hash_table_v1 *hash_table, const char *key, 
 {
 
     // lock for critical section
-    pthread_mutex_lock(&mutex);
+    int err = pthread_mutex_lock(&mutex);
+    if (err != 0) {
+        exit(err);
+    }
 
 	struct hash_table_entry *hash_table_entry = get_hash_table_entry(hash_table, key);
 	struct list_head *list_head = &hash_table_entry->list_head;
@@ -81,7 +84,10 @@ void hash_table_v1_add_entry(struct hash_table_v1 *hash_table, const char *key, 
 	if (list_entry != NULL) {
 		list_entry->value = value;
         // unlock after critical section
-        pthread_mutex_unlock(&mutex);
+        err = pthread_mutex_unlock(&mutex);
+        if (err != 0) {
+            exit(err);
+        }
 		return;
 	}
 
@@ -91,7 +97,10 @@ void hash_table_v1_add_entry(struct hash_table_v1 *hash_table, const char *key, 
 	SLIST_INSERT_HEAD(list_head, list_entry, pointers);
     
     // unlock after critical section
-    pthread_mutex_unlock(&mutex);
+    err = pthread_mutex_unlock(&mutex);
+    if (err != 0) {
+        exit(err);
+    }
 }
 
 uint32_t hash_table_v1_get_value(struct hash_table_v1 *hash_table, const char *key)
