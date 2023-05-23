@@ -22,4 +22,4 @@ hash-table-tester: $(OBJS)
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS) hash-table-tester
+	rm -rf $(OBJS) hash-table-tester __pycache__
