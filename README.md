@@ -32,7 +32,7 @@ In the `hash_table_v1_add_entry` function, a single mutex is used to ensure safe
 The execution time taken for implementation 1 is slower than the base case as the overhead of context switching slows down the hash table operations.
 
 ## Second Implementation
-In the `hash_table_v2_add_entry` function, multiple mutexes are used to allow for more efficient multithreading. Locks are placed around operations that deal with the head of each linked list in order to preserve correctness, however other parts (like the manipulation of attributes of members of said linked list) are left outside the section as they are unaffected by concurrency.
+In the `hash_table_v2_add_entry` function, multiple (2) mutexes are used to allow for more efficient multithreading. Locks are placed around operations that deal with the head of each linked list in order to preserve correctness (in this case the retrieval of the head and the addition of a list member), however other parts (like the manipulation of attributes of members of said linked list) are left outside the section as they are unaffected by concurrency.
 
 ### Performance
 ```bash
